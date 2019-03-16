@@ -1,7 +1,7 @@
 
 /// <reference types="color-convert" />
 import * as converter from 'color-convert'; 
-import GPIORGBLEDStripAccessory from "./lib/GPIORGBLEDStripAccessory"; 
+import GPIORGBLEDStripGammaCorrectedAccessory from "./lib/GPIORGBLEDStripGammaCorrectedAccessory"; 
 import {Gpio} from "pigpio"; 
 
 module.exports = function (homebridge) {
@@ -12,7 +12,7 @@ module.exports = function (homebridge) {
     uuid: homebridge.hap.uuid,
   };
 
-   GPIORGBLEDStripAccessory.init(exportTypes);
+   GPIORGBLEDStripGammaCorrectedAccessory.init(exportTypes);
 
-  homebridge.registerAccessory("homebridge-gpio-ledstrip", "GPIORGBLEDStrip", GPIORGBLEDStripAccessory);
+  homebridge.registerAccessory("homebridge-gpio-ledstrip-gamma-corrected", "GPIORGBLEDStripGammaCorrected", GPIORGBLEDStripGammaCorrectedAccessory);
 };

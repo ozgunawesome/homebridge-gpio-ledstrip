@@ -5,7 +5,7 @@ import {changeBase} from "./Runtime";
 
 var Accessory, Service, Characteristic, uuid;
 
-export default class GPIORGBLEDStripAccessory {
+export default class GPIORGBLEDStripGammaCorrectedAccessory {
 
 	private log;
 	private name: string;
@@ -13,6 +13,7 @@ export default class GPIORGBLEDStripAccessory {
 	private bled: Gpio;
 	private gled: Gpio;
 	private rled: Gpio;
+	private gamma: number;
 
 	// Base class methods
 	private addService: (any) => any;
@@ -26,12 +27,12 @@ export default class GPIORGBLEDStripAccessory {
 		Characteristic = exportTypes.Characteristic;
 		uuid = exportTypes.uuid;
 
-		changeBase(GPIORGBLEDStripAccessory, Accessory);
+		changeBase(GPIORGBLEDStripGammaCorrectedAccessory, Accessory);
 	}
 
 	constructor(log, config) {
 		var name = config["name"];
-		var id = uuid.generate('gpio-ledstrip.rgb.' + (config['id'] || this.name));
+		var id = uuid.generate('gpio-ledstrip-gamma-corrected.rgb.' + (config['id'] || this.name));
 		Accessory.call(this, name, id);
 		this.uuid_base = id;
 		this.name = name;
@@ -59,7 +60,8 @@ export default class GPIORGBLEDStripAccessory {
 		this.rled = new Gpio(config["redPin"], {mode: Gpio.OUTPUT});
 		this.gled = new Gpio(config["greenPin"], {mode: Gpio.OUTPUT});
 		this.bled = new Gpio(config["bluePin"], {mode: Gpio.OUTPUT});
-		
+		this.gamma = config["gamma"] || 2.8
+
 		this.resetState();
 	}
 
@@ -85,11 +87,7 @@ export default class GPIORGBLEDStripAccessory {
 	};
 
 	private gammaCorrect(i: number): number {
-		const gamma = 2.8;
-		const max_in = 255;
-		const max_out = 255;
-
-		return Math.floor(Math.pow(i / max_in, gamma) * max_out + 0.5);
+		return Math.floor(Math.pow(i / 255, this.gamma) * 255 + 0.5);
 	}
 
 	private updateRGB(red : number, green : number, blue : number )

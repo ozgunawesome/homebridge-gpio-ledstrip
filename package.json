@@ -1,5 +1,5 @@
 {
-  "name": "homebridge-gpio-ledstrip",
+  "name": "homebridge-gpio-ledstrip-gamma-corrected",
   "description": "Raspberry Pi GPIO based LED Strip plugin for Homebridge with gamma correction",
   "version": "0.0.2",
   "repository": {
