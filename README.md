@@ -1,6 +1,8 @@
 # homebridge-gpio-ledstrip
 [RPi](https://www.raspberrypi.org) GPIO based LED Strip plugin for [Homebridge](https://github.com/nfarina/homebridge)
 
+Added gamma correction with constant factor 2.8
+
 # Installation
 
 1. Install homebridge using: npm install -g homebridge

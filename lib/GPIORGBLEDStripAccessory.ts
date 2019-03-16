@@ -84,14 +84,21 @@ export default class GPIORGBLEDStripAccessory {
 		this.updateRGB(rgb[0], rgb[1], rgb[2]);
 	};
 
+	private gammaCorrect(i: number): number {
+		const gamma = 2.8;
+		const max_in = 255;
+		const max_out = 255;
+
+		return Math.floor(Math.pow(i / max_in, gamma) * max_out + 0.5);
+	}
+
 	private updateRGB(red : number, green : number, blue : number )
 	{
 		this.log("Setting rgb values to: Red: "+ red + " Green: "+green+ " Blue: "+ blue);
 
-		this.rled.pwmWrite(red);
-		this.gled.pwmWrite(green);
-		this.bled.pwmWrite(blue);
-
+		this.rled.pwmWrite(this.gammaCorrect(red));
+		this.gled.pwmWrite(this.gammaCorrect(green));
+		this.bled.pwmWrite(this.gammaCorrect(blue));
 	}
 
 	private isOn(): boolean {
